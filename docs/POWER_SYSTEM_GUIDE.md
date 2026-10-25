@@ -1,6 +1,6 @@
 # ESP32 Smart Irrigation - Power System Guide
 
-## Status: ✅ COMPLETE POWER DESIGN
+## Status:   COMPLETE POWER DESIGN
 
 **Date:** 2026-01-01
 **Component:** Power Supply System with D Cells + Laptop Connection
@@ -478,36 +478,36 @@ Position 2: Battery selected
 
 ### Final Assembly Checklist:
 
-1. ✅ **Prepare battery pack:**
+1.   **Prepare battery pack:**
    - Insert 4× D cells into holder
    - Verify voltage: should read 4.2-4.6V with fresh cells
    - Mark polarity clearly (+/-)
 
-2. ✅ **Build regulator circuit:**
+2.   **Build regulator circuit:**
    - Assemble LM1117 with capacitors on breadboard
    - Test output: should be 3.30V ±0.05V
    - Secure all connections
 
-3. ✅ **Setup boost converter:**
+3.   **Setup boost converter:**
    - Connect MT3608 to 3.3V rail
    - Adjust output to exactly 5.0V
    - Lock potentiometer
 
-4. ✅ **Install power switching:**
+4.   **Install power switching:**
    - Option A: Use diode OR circuit for auto-switching
    - Option B: Use SPDT switch for manual switching
    - Label positions clearly
 
-5. ✅ **Connect ESP32:**
+5.   **Connect ESP32:**
    - USB mode: Just plug USB cable
    - Battery mode: 3.3V → ESP32 3.3V pin, GND → ESP32 GND
 
-6. ✅ **Connect peripherals:**
+6.   **Connect peripherals:**
    - Sensors + MUX to 3.3V rail
    - Relay to 5V rail (USB VIN or MT3608 output)
    - All GNDs to common ground
 
-7. ✅ **Test both modes:**
+7.   **Test both modes:**
    - USB mode: Connect laptop, verify Serial Monitor works
    - Battery mode: Disconnect USB, verify system boots
    - Check voltage rails with multimeter
@@ -660,9 +660,9 @@ Laptop USB → ESP32 USB port
 
 ---
 
-**Guide Complete:** ✅
-**Power System Designed:** ✅
-**Both Modes Documented:** ✅
+**Guide Complete:**  
+**Power System Designed:**  
+**Both Modes Documented:**  
 **Status:** READY FOR ASSEMBLY
 
 ---
