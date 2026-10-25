@@ -1,0 +1,1427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ESP32 Smart Irrigation System - Complete Documentation</title>
+    <style>
+        body {
+            font-family: 'Calibri', 'Arial', sans-serif;
+            line-height: 1.6;
+            max-width: 8.5in;
+            margin: 0 auto;
+            padding: 1in;
+            background: white;
+            color: #000;
+        }
+        h1 {
+            color: #0066cc;
+            border-bottom: 3px solid #0066cc;
+            padding-bottom: 10px;
+            page-break-before: always;
+        }
+        h1:first-of-type {
+            page-break-before: avoid;
+        }
+        h2 {
+            color: #0066cc;
+            border-bottom: 2px solid #0066cc;
+            padding-bottom: 5px;
+            margin-top: 30px;
+        }
+        h3 {
+            color: #0066cc;
+            margin-top: 20px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #0066cc;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Consolas', 'Monaco', monospace;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 15px;
+            border-left: 4px solid #0066cc;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 12px;
+        }
+        .toc {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border: 2px solid #0066cc;
+            margin: 30px 0;
+        }
+        .toc ul {
+            list-style-type: none;
+            padding-left: 20px;
+        }
+        .toc li {
+            margin: 8px 0;
+        }
+        .toc a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+        .toc a:hover {
+            text-decoration: underline;
+        }
+        .warning {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .success {
+            background-color: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .info {
+            background-color: #d1ecf1;
+            border-left: 4px solid #17a2b8;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .cover {
+            text-align: center;
+            padding: 100px 0;
+        }
+        .cover h1 {
+            font-size: 48px;
+            border: none;
+            margin-bottom: 20px;
+        }
+        .cover .subtitle {
+            font-size: 24px;
+            color: #666;
+            margin: 20px 0;
+        }
+        .cover .version {
+            font-size: 18px;
+            color: #0066cc;
+            margin: 30px 0;
+        }
+        @media print {
+            body { margin: 0; padding: 0.5in; }
+            h1 { page-break-before: always; }
+            h1:first-of-type { page-break-before: avoid; }
+            table { page-break-inside: avoid; }
+            pre { page-break-inside: avoid; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- COVER PAGE -->
+<div class="cover">
+    <h1>ESP32 Smart Irrigation System</h1>
+    <div class="subtitle">Complete Documentation & Deployment Guide</div>
+    <div class="version">Version 4.2.4</div>
+    <p><strong>Advanced 9-Sensor Automated Irrigation with Web Dashboard</strong></p>
+    <p style="margin-top: 100px;">Date: December 2025<br>
+    Status: Production Ready ✅</p>
+</div>
+
+<!-- TABLE OF CONTENTS -->
+<div class="toc">
+    <h2 style="color: #0066cc; border: none;">Table of Contents</h2>
+    <ul>
+        <li><a href="#overview">1. Project Overview</a></li>
+        <li><a href="#features">2. Key Features</a></li>
+        <li><a href="#hardware">3. Hardware Requirements & Wiring</a></li>
+        <li><a href="#software">4. Software Setup</a></li>
+        <li><a href="#configuration">5. Configuration & Calibration</a></li>
+        <li><a href="#operation">6. System Operation</a></li>
+        <li><a href="#commands">7. Serial Commands Reference</a></li>
+        <li><a href="#dashboard">8. Web Dashboard Guide</a></li>
+        <li><a href="#algorithms">9. Advanced Algorithms</a></li>
+        <li><a href="#troubleshooting">10. Troubleshooting</a></li>
+        <li><a href="#technical">11. Technical Specifications</a></li>
+    </ul>
+</div>
+
+<!-- SECTION 1: OVERVIEW -->
+<h1 id="overview">1. Project Overview</h1>
+
+<h2>1.1 System Description</h2>
+<p>The ESP32 Smart Irrigation System is an advanced automated watering solution featuring 9 capacitive soil moisture sensors arranged in a 3×3 grid, intelligent topology-based irrigation control, and a comprehensive web dashboard for real-time monitoring and reporting.</p>
+
+<div class="success">
+    <strong>✅ Production Ready System</strong><br>
+    Version 4.2.4 includes all bug fixes, optimizations, and enhancements. Ready for field deployment.
+</div>
+
+<h2>1.2 System Architecture</h2>
+
+<table>
+    <tr>
+        <th>Component</th>
+        <th>Function</th>
+        <th>Specification</th>
+    </tr>
+    <tr>
+        <td>ESP32 Dev Board</td>
+        <td>Main Controller</td>
+        <td>ESP32-WROOM-32, 240MHz, WiFi enabled</td>
+    </tr>
+    <tr>
+        <td>CD4051 Multiplexer</td>
+        <td>Sensor Routing</td>
+        <td>8-channel analog multiplexer (sensors 0-7)</td>
+    </tr>
+    <tr>
+        <td>Soil Sensors</td>
+        <td>Moisture Detection</td>
+        <td>9 capacitive sensors, 3.3V-5V compatible</td>
+    </tr>
+    <tr>
+        <td>Relay Module</td>
+        <td>Pump Control</td>
+        <td>5V relay, 10A rated</td>
+    </tr>
+    <tr>
+        <td>Water Pump</td>
+        <td>Irrigation</td>
+        <td>12V DC or AC (per requirements)</td>
+    </tr>
+</table>
+
+<h2>1.3 Key Statistics</h2>
+
+<table>
+    <tr>
+        <th>Metric</th>
+        <th>Value</th>
+    </tr>
+    <tr><td>Total Sensors</td><td>9 (3×3 grid)</td></tr>
+    <tr><td>Code Lines</td><td>~1,800</td></tr>
+    <tr><td>Web Pages</td><td>3 (Live Status, Moisture Map, Config Upload)</td></tr>
+    <tr><td>Serial Commands</td><td>20+</td></tr>
+    <tr><td>Config Parameters</td><td>13 runtime adjustable</td></tr>
+    <tr><td>System States</td><td>4 (Monitoring, Irrigating, Waiting, Fault)</td></tr>
+    <tr><td>Report Types</td><td>2 (Daily, Monthly)</td></tr>
+</table>
+
+<!-- SECTION 2: FEATURES -->
+<h1 id="features">2. Key Features</h1>
+
+<h2>2.1 Intelligent Irrigation Control</h2>
+
+<h3>BFS Topology Algorithm</h3>
+<p>The system uses a Breadth-First Search (BFS) algorithm to detect clusters of dry sensors. Irrigation is triggered only when 3 or more connected sensors are dry, preventing over-watering from isolated sensor failures.</p>
+
+<pre>Algorithm:
+1. Mark all sensors as unvisited
+2. For each unvisited dry sensor:
+   - Start BFS traversal
+   - Add neighbors within 15 units distance
+   - Count cluster size
+3. If cluster ≥ 3 sensors → Trigger irrigation
+4. If cluster = 1 sensor → Log as isolated (no action)</pre>
+
+<h3>Spatial Gradient Analysis</h3>
+<p>Compares moisture levels between top row (Y=30) and bottom row (Y=10) sensors to detect drainage patterns, blockages, or slope issues.</p>
+
+<h3>Isolated Sensor Detection</h3>
+<p>Single dry sensors are logged but don't trigger irrigation, preventing wasteful watering from sensor malfunctions.</p>
+
+<h2>2.2 Safety Features</h2>
+
+<table>
+    <tr>
+        <th>Feature</th>
+        <th>Description</th>
+        <th>Threshold</th>
+    </tr>
+    <tr>
+        <td>Leak Detection</td>
+        <td>Alerts when sensors show ≥98% moisture while pump is OFF</td>
+        <td>98% moisture</td>
+    </tr>
+    <tr>
+        <td>Irrigation Failure</td>
+        <td>Detects if soil not getting wetter after 3 checks</td>
+        <td>3 consecutive checks</td>
+    </tr>
+    <tr>
+        <td>Minimum Runtime</td>
+        <td>Prevents pump short-cycling</td>
+        <td>5 minutes</td>
+    </tr>
+    <tr>
+        <td>Maximum Runtime</td>
+        <td>Prevents continuous operation failure</td>
+        <td>1 hour</td>
+    </tr>
+    <tr>
+        <td>System Fault</td>
+        <td>Emergency shutdown on critical errors</td>
+        <td>Manual reset required</td>
+    </tr>
+</table>
+
+<h2>2.3 Web Dashboard</h2>
+
+<p>Accessible at <code>http://[ESP32_IP_ADDRESS]</code> with three main pages:</p>
+
+<ol>
+    <li><strong>📊 Live Status:</strong> Real-time 3×3 sensor grid with moisture percentages, system state, pump status, and report buttons</li>
+    <li><strong>🗺️ Moisture Map:</strong> Visual topology heatmap with blue color gradient (dry=light blue, wet=dark blue), statistics, and field orientation</li>
+    <li><strong>⚙️ Upload Config:</strong> Runtime configuration file upload without code recompilation</li>
+</ol>
+
+<div class="info">
+    <strong>New Feature:</strong> Reports now display in popup modals on the web dashboard instead of requiring Serial Monitor access.
+</div>
+
+<h2>2.4 Reporting & Analytics</h2>
+
+<h3>Daily Reports (24-Hour)</h3>
+<ul>
+    <li>Per-sensor average moisture</li>
+    <li>Irrigation cycles count</li>
+    <li>Total water used (estimated liters)</li>
+    <li>Average watering duration</li>
+    <li>Wetting rate (time to wet soil)</li>
+    <li>Drying rate (time for soil to dry)</li>
+    <li>Soil health diagnosis (infiltration & drainage)</li>
+</ul>
+
+<h3>Monthly Reports (30-Day)</h3>
+<ul>
+    <li>Total irrigation cycles</li>
+    <li>Total water consumption</li>
+    <li>Total pump runtime</li>
+    <li>Monthly averages</li>
+    <li>Long-term soil health trends</li>
+</ul>
+
+<!-- SECTION 3: HARDWARE -->
+<h1 id="hardware">3. Hardware Requirements & Wiring</h1>
+
+<h2>3.1 Component List</h2>
+
+<table>
+    <tr>
+        <th>Component</th>
+        <th>Quantity</th>
+        <th>Specifications</th>
+    </tr>
+    <tr><td>ESP32 Dev Board</td><td>1</td><td>ESP32-WROOM-32 (30-pin recommended)</td></tr>
+    <tr><td>CD4051 Multiplexer</td><td>1</td><td>8-channel analog MUX IC</td></tr>
+    <tr><td>Capacitive Soil Sensors</td><td>9</td><td>3.3V-5V compatible</td></tr>
+    <tr><td>Relay Module</td><td>1</td><td>5V, 10A rated, optoisolated recommended</td></tr>
+    <tr><td>Water Pump</td><td>1</td><td>12V DC or AC (match relay rating)</td></tr>
+    <tr><td>Power Supply (ESP32)</td><td>1</td><td>5V 2A USB or Vin</td></tr>
+    <tr><td>Power Supply (Pump)</td><td>1</td><td>12V 2A or per pump specs</td></tr>
+    <tr><td>Breadboard/PCB</td><td>1</td><td>For connections</td></tr>
+    <tr><td>Jumper Wires</td><td>30+</td><td>Male-to-male, male-to-female</td></tr>
+</table>
+
+<h2>3.2 Pin Configuration (Hybrid Design)</h2>
+
+<div class="warning">
+    <strong>⚠️ Important:</strong> This system uses a hybrid design where sensors 0-7 connect via multiplexer and sensor 8 connects directly to GPIO 35. This is due to GPIO 5 being unreliable for multiplexer control.
+</div>
+
+<table>
+    <tr>
+        <th>ESP32 Pin</th>
+        <th>Connection</th>
+        <th>Function</th>
+    </tr>
+    <tr><td>GPIO 19</td><td>CD4051 S0 (Pin 11)</td><td>MUX address bit 0</td></tr>
+    <tr><td>GPIO 18</td><td>CD4051 S1 (Pin 10)</td><td>MUX address bit 1</td></tr>
+    <tr><td>GPIO 21</td><td>CD4051 S2 (Pin 9)</td><td>MUX address bit 2</td></tr>
+    <tr><td>GPIO 34</td><td>CD4051 Z (Pin 3)</td><td>MUX common output (sensors 0-7)</td></tr>
+    <tr><td>GPIO 35</td><td>Sensor 8 Signal</td><td>Direct ADC input (bypass MUX)</td></tr>
+    <tr><td>GPIO 23</td><td>Relay IN</td><td>Pump control signal</td></tr>
+    <tr><td>3.3V</td><td>CD4051 VCC, All sensors VCC</td><td>Power supply</td></tr>
+    <tr><td>GND</td><td>All components GND</td><td>Common ground</td></tr>
+</table>
+
+<h2>3.3 CD4051 Multiplexer Connections</h2>
+
+<table>
+    <tr>
+        <th>CD4051 Pin</th>
+        <th>Pin Name</th>
+        <th>Connection</th>
+    </tr>
+    <tr><td>1</td><td>Y4</td><td>Sensor 4 Signal</td></tr>
+    <tr><td>2</td><td>Y6</td><td>Sensor 6 Signal</td></tr>
+    <tr><td>3</td><td>Z (Common)</td><td>ESP32 GPIO 34</td></tr>
+    <tr><td>4</td><td>Y7</td><td>Sensor 7 Signal</td></tr>
+    <tr><td>5</td><td>Y5</td><td>Sensor 5 Signal</td></tr>
+    <tr><td>6</td><td>INH (Enable)</td><td>GND (always enabled)</td></tr>
+    <tr><td>7</td><td>VEE (Substrate)</td><td>GND</td></tr>
+    <tr><td>8</td><td>GND</td><td>ESP32 GND</td></tr>
+    <tr><td>9</td><td>S2</td><td>ESP32 GPIO 21</td></tr>
+    <tr><td>10</td><td>S1</td><td>ESP32 GPIO 18</td></tr>
+    <tr><td>11</td><td>S0</td><td>ESP32 GPIO 19</td></tr>
+    <tr><td>12</td><td>Y3</td><td>Sensor 3 Signal</td></tr>
+    <tr><td>13</td><td>Y0</td><td>Sensor 0 Signal</td></tr>
+    <tr><td>14</td><td>Y1</td><td>Sensor 1 Signal</td></tr>
+    <tr><td>15</td><td>Y2</td><td>Sensor 2 Signal</td></tr>
+    <tr><td>16</td><td>VCC</td><td>ESP32 3.3V</td></tr>
+</table>
+
+<h2>3.4 Field Sensor Layout (3×3 Grid)</h2>
+
+<pre>
+          ← Water source direction
+
+┌─────────────────────────────────────┐
+│  [6]      [7]      [8]              │  Row 3 (Y=30) - Top
+│   │        │        │               │
+│   │        │        │               │
+│                                     │
+│  [3]      [4]      [5]              │  Row 2 (Y=20) - Middle
+│   │        │        │               │
+│   │        │        │               │
+│                                     │
+│  [0]      [1]      [2]              │  Row 1 (Y=10) - Bottom
+│   │        │        │               │
+│   └────────┴────────┘               │
+│    X=10   X=20   X=30               │
+│                                     │
+│         Drain/Slope →               │
+└─────────────────────────────────────┘
+
+Recommended spacing: 10 units (meters or feet)
+</pre>
+
+<h2>3.5 Relay & Pump Wiring</h2>
+
+<div class="warning">
+    <strong>⚠️ HIGH VOLTAGE WARNING:</strong> Take proper safety precautions when working with AC-powered pumps. Use proper insulation, keep high voltage away from low voltage circuits, and consider using an optoisolated relay for extra safety.
+</div>
+
+<pre>
+Relay Module:
+  VCC → ESP32 5V (or separate 5V supply)
+  GND → ESP32 GND
+  IN  → ESP32 GPIO 23
+
+Pump Connection:
+  Relay COM → Pump Power Supply (+) terminal
+  Relay NO  → Pump Motor (+) terminal
+  Pump (-)  → Pump Power Supply (-) terminal
+</pre>
+
+<!-- SECTION 4: SOFTWARE -->
+<h1 id="software">4. Software Setup</h1>
+
+<h2>4.1 Install Arduino IDE</h2>
+
+<ol>
+    <li>Download Arduino IDE from <a href="https://www.arduino.cc/en/software">https://www.arduino.cc/en/software</a></li>
+    <li>Install version 2.x or 1.8.19+ for your operating system</li>
+    <li>Launch Arduino IDE</li>
+</ol>
+
+<h2>4.2 Install ESP32 Board Support</h2>
+
+<ol>
+    <li>Open Arduino IDE → <strong>File → Preferences</strong></li>
+    <li>In "Additional Board Manager URLs" field, add:
+        <pre>https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json</pre>
+    </li>
+    <li>Click <strong>OK</strong></li>
+    <li>Go to <strong>Tools → Board → Boards Manager</strong></li>
+    <li>Search for "esp32"</li>
+    <li>Install "esp32 by Espressif Systems" (version 2.0.11 or later)</li>
+</ol>
+
+<h2>4.3 Install Required Libraries</h2>
+
+<p>Go to <strong>Sketch → Include Library → Manage Libraries</strong> and install:</p>
+
+<table>
+    <tr>
+        <th>Library</th>
+        <th>Version</th>
+        <th>Author</th>
+    </tr>
+    <tr><td>WiFi</td><td>Included</td><td>ESP32 Core</td></tr>
+    <tr><td>WebServer</td><td>Included</td><td>ESP32 Core</td></tr>
+    <tr><td>ArduinoJson</td><td>6.x</td><td>Benoit Blanchon</td></tr>
+    <tr><td>Preferences</td><td>Included</td><td>ESP32 Core</td></tr>
+    <tr><td>SPIFFS</td><td>Included</td><td>ESP32 Core</td></tr>
+</table>
+
+<h2>4.4 Board Configuration</h2>
+
+<p>Configure these settings in Arduino IDE:</p>
+
+<table>
+    <tr>
+        <th>Setting</th>
+        <th>Value</th>
+    </tr>
+    <tr><td>Board</td><td>ESP32 Dev Module (or your specific board)</td></tr>
+    <tr><td>Upload Speed</td><td>115200</td></tr>
+    <tr><td>CPU Frequency</td><td>240MHz (WiFi/BT)</td></tr>
+    <tr><td>Flash Frequency</td><td>80MHz</td></tr>
+    <tr><td>Flash Mode</td><td>QIO</td></tr>
+    <tr><td>Flash Size</td><td>4MB (32Mb)</td></tr>
+    <tr><td>Partition Scheme</td><td>Default 4MB with spiffs (1.2MB APP/1.5MB SPIFFS)</td></tr>
+    <tr><td>Core Debug Level</td><td>None (or "Info" for debugging)</td></tr>
+</table>
+
+<h2>4.5 WiFi Configuration</h2>
+
+<p>Edit lines 94-95 in the code with your WiFi credentials:</p>
+
+<pre>
+const char* ssid = "YourWiFiSSID";
+const char* password = "YourWiFiPassword";
+</pre>
+
+<div class="warning">
+    <strong>⚠️ Important:</strong> ESP32 only supports 2.4GHz WiFi networks. 5GHz networks will not work.
+</div>
+
+<h2>4.6 Upload Code</h2>
+
+<ol>
+    <li>Connect ESP32 to computer via USB cable</li>
+    <li>Select correct COM port in <strong>Tools → Port</strong></li>
+    <li>Click <strong>Verify</strong> (✓) to compile</li>
+    <li>Click <strong>Upload</strong> (→) to upload to ESP32</li>
+    <li>If upload fails, hold BOOT button on ESP32 and try again</li>
+</ol>
+
+<!-- SECTION 5: CONFIGURATION -->
+<h1 id="configuration">5. Configuration & Calibration</h1>
+
+<h2>5.1 Configuration Parameters</h2>
+
+<p>The system uses 13 runtime-configurable parameters stored in <code>config.json</code> on SPIFFS:</p>
+
+<h3>Calibration Values</h3>
+<table>
+    <tr>
+        <th>Parameter</th>
+        <th>Default</th>
+        <th>Description</th>
+    </tr>
+    <tr><td>CALIBRATION_DRY</td><td>3500</td><td>ADC value when sensor in air (0% moisture)</td></tr>
+    <tr><td>CALIBRATION_WET</td><td>1200</td><td>ADC value when sensor in water (100% moisture)</td></tr>
+    <tr><td>DRY_THRESHOLD</td><td>3000</td><td>Trigger irrigation when above this value</td></tr>
+    <tr><td>WET_THRESHOLD</td><td>1500</td><td>Stop irrigation when all sensors below this</td></tr>
+    <tr><td>LEAK_THRESHOLD_PERCENT</td><td>98</td><td>Alert threshold for potential leaks (%)</td></tr>
+</table>
+
+<h3>Timing Parameters</h3>
+<table>
+    <tr>
+        <th>Parameter</th>
+        <th>Default</th>
+        <th>Description</th>
+    </tr>
+    <tr><td>CHECK_INTERVAL_MS</td><td>60000</td><td>Monitoring check interval (1 minute)</td></tr>
+    <tr><td>MIN_PUMP_ON_TIME_MS</td><td>300000</td><td>Minimum pump runtime (5 minutes)</td></tr>
+    <tr><td>MAX_PUMP_ON_TIME_MS</td><td>3600000</td><td>Maximum pump runtime (1 hour)</td></tr>
+    <tr><td>POST_IRRIGATION_WAIT_TIME_MS</td><td>14400000</td><td>Cooldown period (4 hours)</td></tr>
+    <tr><td>IRRIGATING_CHECK_INTERVAL_MS</td><td>10000</td><td>Check interval during irrigation (10 seconds)</td></tr>
+</table>
+
+<h3>Sampling Settings</h3>
+<table>
+    <tr>
+        <th>Parameter</th>
+        <th>Default</th>
+        <th>Description</th>
+    </tr>
+    <tr><td>ADC_SAMPLES</td><td>5</td><td>Number of ADC samples to average</td></tr>
+    <tr><td>MUX_SETTLE_TIME_US</td><td>800</td><td>Multiplexer settling time (microseconds)</td></tr>
+    <tr><td>ADC_SAMPLE_DELAY_MS</td><td>1</td><td>Delay between ADC samples (milliseconds)</td></tr>
+</table>
+
+<h2>5.2 Calibration Procedure</h2>
+
+<h3>Step 1: Calibrate DRY Value</h3>
+<ol>
+    <li>Remove one sensor from soil and let it air dry for 2-3 minutes</li>
+    <li>Open Serial Monitor (115200 baud)</li>
+    <li>Note the ADC value (e.g., 3500)</li>
+    <li>Send command: <code>CONFIG_DRY:3500</code></li>
+</ol>
+
+<h3>Step 2: Calibrate WET Value</h3>
+<ol>
+    <li>Submerge the same sensor in water for 30 seconds</li>
+    <li>Note the ADC value (e.g., 1200)</li>
+    <li>Send command: <code>CONFIG_WET:1200</code></li>
+</ol>
+
+<h3>Step 3: Set Thresholds</h3>
+<ol>
+    <li>Set dry threshold (trigger irrigation): <code>CONFIG_DRY_THRESH:3000</code></li>
+    <li>Set wet threshold (stop irrigation): <code>CONFIG_WET_THRESH:1500</code></li>
+</ol>
+
+<div class="info">
+    <strong>Tip:</strong> DRY_THRESHOLD should be between WET_THRESHOLD and CALIBRATION_DRY. Typical value is ~80-85% of CALIBRATION_DRY.
+</div>
+
+<h2>5.3 Creating config.json</h2>
+
+<p>Create a file named <code>config.json</code> with your calibrated values:</p>
+
+<pre>
+{
+  "CALIBRATION_DRY": 3500,
+  "CALIBRATION_WET": 1200,
+  "DRY_THRESHOLD": 3000,
+  "WET_THRESHOLD": 1500,
+  "LEAK_THRESHOLD_PERCENT": 98,
+  "ADC_SAMPLES": 5,
+  "MUX_SETTLE_TIME_US": 800,
+  "ADC_SAMPLE_DELAY_MS": 1,
+  "CHECK_INTERVAL_MS": 60000,
+  "MIN_PUMP_ON_TIME_MS": 300000,
+  "MAX_PUMP_ON_TIME_MS": 3600000,
+  "POST_IRRIGATION_WAIT_TIME_MS": 14400000,
+  "IRRIGATING_CHECK_INTERVAL_MS": 10000
+}
+</pre>
+
+<h2>5.4 Upload Configuration</h2>
+
+<p>Two methods to upload configuration:</p>
+
+<h3>Method 1: Web Dashboard</h3>
+<ol>
+    <li>Open web dashboard at <code>http://[ESP32_IP]</code></li>
+    <li>Click "⚙️ Upload Config" tab</li>
+    <li>Click "Choose File" and select <code>config.json</code></li>
+    <li>Click "Upload"</li>
+    <li>Verify success message</li>
+</ol>
+
+<h3>Method 2: Serial Monitor</h3>
+<p>Send configuration commands one at a time (see Section 7 for all commands).</p>
+
+<!-- SECTION 6: OPERATION -->
+<h1 id="operation">6. System Operation</h1>
+
+<h2>6.1 State Machine</h2>
+
+<p>The system operates in one of four states:</p>
+
+<pre>
+MONITORING → IRRIGATING → WAITING → [cycle repeats]
+     ↓            ↓
+SYSTEM_FAULT (emergency stop)
+</pre>
+
+<h3>State 1: MONITORING</h3>
+<ul>
+    <li>Default state, checks sensors every 60 seconds</li>
+    <li>Analyzes topology using BFS algorithm</li>
+    <li>Triggers irrigation if 3+ connected dry sensors detected</li>
+    <li>Monitors for leaks and anomalies</li>
+    <li>Performs gradient analysis (top vs bottom row)</li>
+</ul>
+
+<h3>State 2: IRRIGATING</h3>
+<ul>
+    <li>Pump turns ON</li>
+    <li>Checks moisture every 10 seconds</li>
+    <li>Minimum runtime: 5 minutes (prevents short-cycling)</li>
+    <li>Stops when all sensors < WET_THRESHOLD</li>
+    <li>Maximum runtime: 1 hour (failsafe timeout)</li>
+    <li>Monitors for irrigation failure (soil not getting wetter)</li>
+</ul>
+
+<h3>State 3: WAITING</h3>
+<ul>
+    <li>Pump is OFF</li>
+    <li>4-hour cooldown period</li>
+    <li>Prevents over-watering and pump wear</li>
+    <li>Monitors for unexpected dry/wet conditions</li>
+    <li>Returns to MONITORING after wait period</li>
+</ul>
+
+<h3>State 4: SYSTEM_FAULT</h3>
+<ul>
+    <li>Pump is OFF (forced shutdown)</li>
+    <li>Triggered by critical errors:
+        <ul>
+            <li>Irrigation failure (no moisture change after 3 checks)</li>
+            <li>Maximum pump time exceeded without soil wetting</li>
+        </ul>
+    </li>
+    <li>Requires manual reset: <code>FORCE_RESET</code> command</li>
+</ul>
+
+<h2>6.2 Operational Flow</h2>
+
+<ol>
+    <li><strong>System Boot:</strong>
+        <ul>
+            <li>Connects to WiFi</li>
+            <li>Loads configuration from SPIFFS</li>
+            <li>Runs Power-On Self-Test (POST)</li>
+            <li>Enters MONITORING state</li>
+        </ul>
+    </li>
+    <li><strong>Every 60 Seconds (MONITORING):</strong>
+        <ul>
+            <li>Reads all 9 sensors</li>
+            <li>Checks for leaks (≥98% moisture)</li>
+            <li>Analyzes topology (BFS cluster detection)</li>
+            <li>Checks gradient (top vs bottom)</li>
+            <li>Triggers irrigation if 3+ dry cluster found</li>
+        </ul>
+    </li>
+    <li><strong>Irrigation Cycle (IRRIGATING):</strong>
+        <ul>
+            <li>Turns pump ON</li>
+            <li>Checks sensors every 10 seconds</li>
+            <li>Runs for minimum 5 minutes</li>
+            <li>Stops when all sensors wet</li>
+            <li>Maximum 1 hour (failsafe)</li>
+            <li>Enters WAITING state</li>
+        </ul>
+    </li>
+    <li><strong>Cooldown (WAITING):</strong>
+        <ul>
+            <li>Pump OFF for 4 hours</li>
+            <li>Monitors for anomalies</li>
+            <li>Returns to MONITORING</li>
+        </ul>
+    </li>
+    <li><strong>Daily (Midnight):</strong>
+        <ul>
+            <li>Generates daily report</li>
+            <li>Resets daily counters</li>
+            <li>Accumulates to monthly totals</li>
+            <li>Saves to flash memory</li>
+        </ul>
+    </li>
+    <li><strong>Monthly (30 Days):</strong>
+        <ul>
+            <li>Generates monthly report</li>
+            <li>Resets monthly counters</li>
+            <li>Saves to flash memory</li>
+        </ul>
+    </li>
+</ol>
+
+<!-- SECTION 7: COMMANDS -->
+<h1 id="commands">7. Serial Commands Reference</h1>
+
+<h2>7.1 System Information</h2>
+
+<table>
+    <tr>
+        <th>Command</th>
+        <th>Description</th>
+        <th>Example Output</th>
+    </tr>
+    <tr>
+        <td><code>IP</code></td>
+        <td>Print IP address and dashboard URL</td>
+        <td>WiFi connected! IP address: 192.168.1.100</td>
+    </tr>
+    <tr>
+        <td><code>PRINT</code></td>
+        <td>Show all current sensor readings</td>
+        <td>S0: 3245 = 10% - DRY</td>
+    </tr>
+    <tr>
+        <td><code>REPORT</code></td>
+        <td>Generate daily report (Serial output)</td>
+        <td>--- 24-HOUR DAILY REPORT ---</td>
+    </tr>
+    <tr>
+        <td><code>MONTHLY_REPORT</code></td>
+        <td>Generate monthly report (Serial output)</td>
+        <td>--- 30-DAY MONTHLY REPORT ---</td>
+    </tr>
+</table>
+
+<h2>7.2 Sensor Simulation</h2>
+
+<table>
+    <tr>
+        <th>Command</th>
+        <th>Description</th>
+        <th>Example</th>
+    </tr>
+    <tr>
+        <td><code>S[N]:[VALUE]</code></td>
+        <td>Set sensor N to specific ADC value</td>
+        <td><code>S0:3500</code> sets sensor 0 to 3500 (dry)</td>
+    </tr>
+</table>
+
+<p><strong>Examples:</strong></p>
+<pre>
+S0:3500    # Sensor 0 dry
+S1:2800    # Sensor 1 medium
+S2:1500    # Sensor 2 wet
+S8:3100    # Sensor 8 (direct) dry
+</pre>
+
+<h2>7.3 Pump Control</h2>
+
+<table>
+    <tr>
+        <th>Command</th>
+        <th>Description</th>
+    </tr>
+    <tr><td><code>PUMP_ON</code></td><td>Turn pump ON manually</td></tr>
+    <tr><td><code>PUMP_OFF</code></td><td>Turn pump OFF manually</td></tr>
+    <tr><td><code>TEST_PUMP_30S</code></td><td>Run pump for 30 seconds (test mode)</td></tr>
+</table>
+
+<h2>7.4 State Control</h2>
+
+<table>
+    <tr>
+        <th>Command</th>
+        <th>Description</th>
+    </tr>
+    <tr><td><code>STATE:MONITORING</code></td><td>Force system to MONITORING state</td></tr>
+    <tr><td><code>STATE:IRRIGATING</code></td><td>Force system to IRRIGATING state</td></tr>
+    <tr><td><code>STATE:WAITING</code></td><td>Force system to WAITING state</td></tr>
+    <tr><td><code>FORCE_RESET</code></td><td>Clear SYSTEM_FAULT and return to MONITORING</td></tr>
+</table>
+
+<h2>7.5 Configuration Commands</h2>
+
+<table>
+    <tr>
+        <th>Command</th>
+        <th>Description</th>
+        <th>Example</th>
+    </tr>
+    <tr><td><code>CONFIG_DRY:[VALUE]</code></td><td>Set dry calibration</td><td><code>CONFIG_DRY:3500</code></td></tr>
+    <tr><td><code>CONFIG_WET:[VALUE]</code></td><td>Set wet calibration</td><td><code>CONFIG_WET:1200</code></td></tr>
+    <tr><td><code>CONFIG_DRY_THRESH:[VALUE]</code></td><td>Set dry threshold</td><td><code>CONFIG_DRY_THRESH:3000</code></td></tr>
+    <tr><td><code>CONFIG_WET_THRESH:[VALUE]</code></td><td>Set wet threshold</td><td><code>CONFIG_WET_THRESH:1500</code></td></tr>
+    <tr><td><code>CONFIG_MIN_ON:[VALUE]</code></td><td>Set min pump time (ms)</td><td><code>CONFIG_MIN_ON:300000</code></td></tr>
+    <tr><td><code>CONFIG_MAX_ON:[VALUE]</code></td><td>Set max pump time (ms)</td><td><code>CONFIG_MAX_ON:3600000</code></td></tr>
+    <tr><td><code>CONFIG_WAIT:[VALUE]</code></td><td>Set wait time (ms)</td><td><code>CONFIG_WAIT:14400000</code></td></tr>
+</table>
+
+<h2>7.6 Testing Commands</h2>
+
+<table>
+    <tr>
+        <th>Command</th>
+        <th>Description</th>
+    </tr>
+    <tr><td><code>FORCE_CHECK</code></td><td>Immediate sensor check (bypass 60s timer)</td></tr>
+    <tr><td><code>FORCE_IRRIGATE_CHECK</code></td><td>Immediate irrigation check (bypass 10s timer)</td></tr>
+    <tr><td><code>FORCE_WAIT_SKIP</code></td><td>Skip waiting period (for testing)</td></tr>
+</table>
+
+<!-- SECTION 8: DASHBOARD -->
+<h1 id="dashboard">8. Web Dashboard Guide</h1>
+
+<h2>8.1 Accessing the Dashboard</h2>
+
+<ol>
+    <li>Connect ESP32 to WiFi (check Serial Monitor for IP address)</li>
+    <li>Send <code>IP</code> command in Serial Monitor to display IP address</li>
+    <li>Open web browser on same WiFi network</li>
+    <li>Navigate to <code>http://[ESP32_IP_ADDRESS]</code></li>
+</ol>
+
+<h2>8.2 Live Status Page</h2>
+
+<p>The main page displays:</p>
+
+<ul>
+    <li><strong>3×3 Sensor Grid:</strong> Real-time moisture percentages for all 9 sensors</li>
+    <li><strong>Color Coding:</strong>
+        <ul>
+            <li>Red background = DRY (needs water)</li>
+            <li>Yellow background = Medium moisture</li>
+            <li>Green background = WET (adequate water)</li>
+        </ul>
+    </li>
+    <li><strong>System Status:</strong> Current state (MONITORING/IRRIGATING/WAITING/FAULT)</li>
+    <li><strong>Pump Status:</strong> ON or OFF</li>
+    <li><strong>Report Buttons:</strong> Generate daily or monthly reports</li>
+</ul>
+
+<h2>8.3 Moisture Heatmap Page</h2>
+
+<p>Visual topology display featuring:</p>
+
+<ul>
+    <li><strong>Blue Gradient Heatmap:</strong> Light blue (dry) to dark blue (wet)</li>
+    <li><strong>Real-time Statistics:</strong> Average, minimum, and maximum moisture</li>
+    <li><strong>Field Orientation:</strong> Top/bottom indicators</li>
+    <li><strong>Auto-refresh:</strong> Updates every 3 seconds</li>
+    <li><strong>5-Point Color Scale:</strong> Smooth color interpolation based on moisture percentage</li>
+</ul>
+
+<h2>8.4 Config Upload Page</h2>
+
+<p>Upload <code>config.json</code> file:</p>
+
+<ol>
+    <li>Click "Choose File" button</li>
+    <li>Select <code>config.json</code> from computer</li>
+    <li>Click "Upload" button</li>
+    <li>System validates and loads new configuration</li>
+    <li>Changes take effect immediately (no reboot required)</li>
+</ol>
+
+<div class="warning">
+    <strong>⚠️ Important:</strong> File must be named exactly <code>config.json</code> and be valid JSON format (max 3KB).
+</div>
+
+<h2>8.5 Report Display (NEW Feature)</h2>
+
+<p>When you click "📋 Daily Report" or "📈 Monthly Report" buttons:</p>
+
+<ul>
+    <li>Report appears in a <strong>popup modal window</strong></li>
+    <li>Dark overlay background with white content box</li>
+    <li>Monospace font preserves formatting</li>
+    <li>Scrollable for long reports</li>
+    <li>Click "Close" button to dismiss</li>
+</ul>
+
+<div class="info">
+    <strong>New in v4.2.4:</strong> Reports now display on web dashboard instead of only in Serial Monitor. Serial commands still output to Serial Monitor only.
+</div>
+
+<!-- SECTION 9: ALGORITHMS -->
+<h1 id="algorithms">9. Advanced Algorithms</h1>
+
+<h2>9.1 BFS Topology Detection</h2>
+
+<p>The system uses Breadth-First Search to detect connected clusters of dry sensors:</p>
+
+<pre>
+Algorithm Steps:
+1. Initialize all sensors as unvisited
+2. For each unvisited dry sensor (value > DRY_THRESHOLD):
+   a. Create empty queue
+   b. Add sensor to queue and mark as visited
+   c. Initialize cluster size = 0
+   d. While queue not empty:
+      - Dequeue sensor
+      - Increment cluster size
+      - For each neighbor (distance ≤ 15 units):
+        * If neighbor is dry AND unvisited:
+          - Add to queue
+          - Mark as visited
+   e. Log cluster information
+3. If any cluster size ≥ 3 → Trigger irrigation
+4. If cluster size = 1 → Log as isolated (no action)
+</pre>
+
+<h3>Neighbor Detection</h3>
+<p>Two sensors are neighbors if their Euclidean distance ≤ 15 units:</p>
+
+<pre>
+distance = sqrt((x2 - x1)² + (y2 - y1)²)
+
+Example:
+Sensor 0 (10,10) and Sensor 1 (20,10):
+distance = sqrt((20-10)² + (10-10)²) = sqrt(100) = 10 ✓ Neighbors
+
+Sensor 0 (10,10) and Sensor 8 (30,30):
+distance = sqrt((30-10)² + (30-10)²) = sqrt(800) = 28.3 ✗ Not neighbors
+</pre>
+
+<h3>Why 3-Sensor Minimum?</h3>
+<ul>
+    <li>Prevents false triggers from single sensor failures</li>
+    <li>Ensures meaningful dry area before watering</li>
+    <li>Balances water conservation with adequate coverage</li>
+    <li>Isolated sensors logged for diagnostics but don't trigger irrigation</li>
+</ul>
+
+<h2>9.2 Gradient Analysis</h2>
+
+<p>Compares top row vs bottom row moisture to detect drainage issues:</p>
+
+<pre>
+Algorithm:
+1. Calculate bottom row average:
+   bottomAvg = Average(Sensor 0, Sensor 1, Sensor 2)  // Y=10
+
+2. Calculate top row average:
+   topAvg = Average(Sensor 6, Sensor 7, Sensor 8)  // Y=30
+
+3. Check gradient:
+   if |topAvg - bottomAvg| > 30%:
+      → Warning: Significant gradient detected
+      → Check for blockage, poor drainage, or slope issues
+</pre>
+
+<h3>Interpretation</h3>
+<ul>
+    <li><strong>Top wet, Bottom dry:</strong> Possible blockage preventing water flow downward</li>
+    <li><strong>Top dry, Bottom wet:</strong> Normal drainage (water flows downhill)</li>
+    <li><strong>Uniform moisture:</strong> Good water distribution</li>
+</ul>
+
+<h2>9.3 Leak Detection</h2>
+
+<pre>
+Algorithm (runs during MONITORING and WAITING states):
+For each sensor:
+  if moisture% ≥ LEAK_THRESHOLD_PERCENT (98%) AND pump is OFF:
+    → ALERT: Potential leak detected at sensor location
+    → Log sensor position (X,Y coordinates)
+    → Continue monitoring (does not enter FAULT state)
+</pre>
+
+<h3>Why Not in IRRIGATING State?</h3>
+<p>High moisture is expected during irrigation. Leak detection only runs when pump is OFF to avoid false positives.</p>
+
+<h2>9.4 Irrigation Failure Detection</h2>
+
+<pre>
+Algorithm (runs during IRRIGATING state):
+1. Read all sensors every 10 seconds
+2. Calculate currentMoistureSum = Sum of all 9 sensor ADC values
+3. Compare to previousMoistureSum:
+   if currentSum ≥ previousSum:  // Not getting wetter (lower ADC = more moisture)
+      failureCount++
+      if failureCount ≥ 3:
+         → SYSTEM_FAULT: Irrigation failure
+         → Turn pump OFF
+         → Require manual reset
+   else:
+      failureCount = 0  // Reset counter if improving
+4. Update previousMoistureSum = currentMoistureSum
+</pre>
+
+<h3>Why 3 Consecutive Checks?</h3>
+<p>Allows time for water to reach sensors (travel time through soil). Single check might give false positive during normal operation.</p>
+
+<!-- SECTION 10: TROUBLESHOOTING -->
+<h1 id="troubleshooting">10. Troubleshooting</h1>
+
+<h2>10.1 WiFi Connection Issues</h2>
+
+<h3>Symptoms</h3>
+<pre>
+WiFi connecting...........
+WiFi connection failed!
+Operating without WiFi.
+</pre>
+
+<h3>Solutions</h3>
+<ol>
+    <li>Verify SSID and password are correct (case-sensitive)</li>
+    <li>Ensure WiFi is 2.4GHz network (ESP32 doesn't support 5GHz)</li>
+    <li>Check router is powered on and broadcasting</li>
+    <li>Move ESP32 closer to router (reduce distance)</li>
+    <li>Verify router allows new device connections</li>
+    <li>Try different WiFi network for testing</li>
+</ol>
+
+<h2>10.2 Sensor Reading Issues</h2>
+
+<h3>Symptoms: Sensor Reads 0 or 4095</h3>
+
+<table>
+    <tr>
+        <th>Reading</th>
+        <th>Likely Cause</th>
+        <th>Solution</th>
+    </tr>
+    <tr>
+        <td>0</td>
+        <td>No power to sensor</td>
+        <td>Check VCC connection to 3.3V</td>
+    </tr>
+    <tr>
+        <td>0</td>
+        <td>Sensor shorted to GND</td>
+        <td>Check for shorts in wiring</td>
+    </tr>
+    <tr>
+        <td>4095</td>
+        <td>Signal wire disconnected</td>
+        <td>Verify signal wire to MUX or GPIO 35</td>
+    </tr>
+    <tr>
+        <td>4095</td>
+        <td>Floating pin (nothing connected)</td>
+        <td>Connect sensor or add 10kΩ pull-down resistor</td>
+    </tr>
+</table>
+
+<h3>Symptoms: Sensor 8 Not Working</h3>
+
+<div class="warning">
+    <strong>⚠️ Remember:</strong> Sensor 8 connects directly to GPIO 35, NOT through the multiplexer!
+</div>
+
+<ol>
+    <li>Verify GPIO 35 is input-only (cannot be configured as output)</li>
+    <li>Check direct connection from Sensor 8 signal to GPIO 35</li>
+    <li>Confirm ADC attenuation is set: <code>analogSetPinAttenuation(SENSOR_9_PIN, ADC_11db)</code></li>
+    <li>Test with different sensor to rule out hardware fault</li>
+</ol>
+
+<h3>Symptoms: Multiplexer Channels Mixed Up</h3>
+
+<p>Wrong sensor triggers irrigation or readings swap</p>
+
+<ol>
+    <li>Verify CD4051 pin connections:
+        <ul>
+            <li>S0 (Pin 11) → GPIO 19</li>
+            <li>S1 (Pin 10) → GPIO 18</li>
+            <li>S2 (Pin 9) → GPIO 21</li>
+        </ul>
+    </li>
+    <li>Check Y# connections match code mapping (see Section 3.3)</li>
+    <li>Run POST and verify mapping: Check Serial Monitor output at boot</li>
+</ol>
+
+<h2>10.3 Relay Not Switching</h2>
+
+<h3>Symptoms</h3>
+<pre>
+Manual PUMP_ON command received.
+(No relay click sound)
+</pre>
+
+<h3>Solutions</h3>
+<ol>
+    <li>Check GPIO 23 connection to relay IN pin</li>
+    <li>Verify relay VCC connected to 5V (not 3.3V - may not trigger reliably)</li>
+    <li>Test relay with external 5V power source</li>
+    <li>Check relay LED indicator (should light when ON)</li>
+    <li>Measure voltage at GPIO 23 with multimeter (should be ~3.3V when ON)</li>
+    <li>Try different GPIO pin if GPIO 23 is damaged</li>
+</ol>
+
+<h2>10.4 Pump Runs But No Water</h2>
+
+<h3>Symptoms</h3>
+<pre>
+Pump turned ON.
+!!! WARNING: Soil is not getting wetter! (Check 1)
+</pre>
+
+<h3>Solutions</h3>
+<ol>
+    <li>Verify pump power supply voltage is correct (12V for most pumps)</li>
+    <li>Check water source is not empty</li>
+    <li>Inspect pump intake filter for clogs</li>
+    <li>Examine water lines for leaks or kinks</li>
+    <li>Test pump separately with direct power connection</li>
+    <li>Verify relay is switching high-voltage side correctly (check with multimeter)</li>
+    <li>Listen for pump motor running (should hear humming)</li>
+</ol>
+
+<h2>10.5 Irrigation Never Triggers</h2>
+
+<h3>Symptoms</h3>
+<p>Sensors show dry values but irrigation doesn't start</p>
+
+<h3>Solutions</h3>
+
+<ol>
+    <li><strong>Test cluster detection manually:</strong>
+        <pre>
+S0:3500
+S1:3500
+S3:3500
+FORCE_CHECK
+        </pre>
+        Should trigger: <code>TOPOLOGY ALERT: Dry cluster of 3 - triggering irrigation!</code>
+    </li>
+    <li><strong>Verify thresholds are logical:</strong>
+        <ul>
+            <li>DRY_THRESHOLD must be < CALIBRATION_DRY</li>
+            <li>Example: DRY=3000, CALIBRATION_DRY=3500 ✓</li>
+        </ul>
+    </li>
+    <li><strong>Check cluster size requirement:</strong>
+        <ul>
+            <li>MIN_DRY_SENSORS_TO_TRIGGER should be 3 (default)</li>
+        </ul>
+    </li>
+    <li><strong>Verify sensors are neighbors:</strong>
+        <ul>
+            <li>Distance must be ≤ 15 units</li>
+            <li>Check sensor coordinates in code match physical layout</li>
+        </ul>
+    </li>
+</ol>
+
+<h2>10.6 System in FAULT State</h2>
+
+<h3>Symptoms</h3>
+<pre>
+State: SYSTEM_FAULT
+</pre>
+
+<h3>Causes</h3>
+<ol>
+    <li><strong>Irrigation Failure:</strong> Soil not getting wetter after 3 consecutive checks</li>
+    <li><strong>Max Pump Time:</strong> Pump ran for 1 hour without adequate soil wetting</li>
+</ol>
+
+<h3>Recovery Steps</h3>
+<ol>
+    <li>Check Serial Monitor for specific error message</li>
+    <li>Fix underlying issue (pump malfunction, sensor error, etc.)</li>
+    <li>Send recovery command: <code>FORCE_RESET</code></li>
+    <li>System returns to MONITORING state</li>
+    <li>Monitor for recurrence</li>
+</ol>
+
+<h2>10.7 Web Dashboard Not Loading</h2>
+
+<h3>Symptoms</h3>
+<p>Browser shows "Can't reach this page" or "Connection timed out"</p>
+
+<h3>Solutions</h3>
+<ol>
+    <li>Verify ESP32 connected to WiFi:
+        <pre>Serial Monitor should show: "WiFi connected! IP: 192.168.1.XXX"</pre>
+    </li>
+    <li>Confirm computer on same WiFi network as ESP32</li>
+    <li>Try IP address directly (not hostname)</li>
+    <li>Clear browser cache or try different browser</li>
+    <li>Ping ESP32 IP address from terminal:
+        <pre>ping 192.168.1.XXX</pre>
+    </li>
+    <li>Check firewall isn't blocking port 80</li>
+</ol>
+
+<h2>10.8 Leak Warnings on Boot</h2>
+
+<h3>Symptoms</h3>
+<pre>
+!!! WARNING: POTENTIAL LEAK DETECTED !!!
+Sensor (Ch 6 @ 10,30) is 100% wet while pump is OFF.
+</pre>
+
+<div class="info">
+    <strong>This is normal if sensors are not connected!</strong> GPIO 34 and 35 are floating (not connected to anything) and read random high values that appear as 100% moisture.
+</div>
+
+<h3>Solutions</h3>
+<ol>
+    <li><strong>If testing without sensors:</strong> Send simulated values:
+        <pre>
+S0:3500
+S1:3500
+S2:3500
+S3:3500
+S4:3500
+S5:3500
+S6:3500
+S7:3500
+S8:3500
+FORCE_CHECK
+        </pre>
+    </li>
+    <li><strong>If want to eliminate warnings:</strong> Add 10kΩ pull-down resistors from GPIO 34 and GPIO 35 to GND</li>
+    <li><strong>In production:</strong> Connect actual sensors - warnings will disappear</li>
+</ol>
+
+<!-- SECTION 11: TECHNICAL -->
+<h1 id="technical">11. Technical Specifications</h1>
+
+<h2>11.1 System Performance</h2>
+
+<table>
+    <tr>
+        <th>Metric</th>
+        <th>Value</th>
+    </tr>
+    <tr><td>Total Code Lines</td><td>~1,800</td></tr>
+    <tr><td>Flash Usage</td><td>~60KB</td></tr>
+    <tr><td>RAM Usage</td><td>~15KB</td></tr>
+    <tr><td>SPIFFS Storage</td><td>1.5MB available</td></tr>
+    <tr><td>Sensor Read Time</td><td>~50ms per sensor (with averaging)</td></tr>
+    <tr><td>Full Scan Time</td><td>~500ms (all 9 sensors)</td></tr>
+    <tr><td>Web Response Time</td><td><100ms (local network)</td></tr>
+    <tr><td>WiFi Power</td><td>~240mA active, ~20mA sleep</td></tr>
+</table>
+
+<h2>11.2 Version History</h2>
+
+<table>
+    <tr>
+        <th>Version</th>
+        <th>Date</th>
+        <th>Changes</th>
+    </tr>
+    <tr>
+        <td>4.0</td>
+        <td>Oct 2025</td>
+        <td>Initial release with 8 sensors, basic monitoring</td>
+    </tr>
+    <tr>
+        <td>4.1</td>
+        <td>Nov 2025</td>
+        <td>Added web dashboard, basic reports</td>
+    </tr>
+    <tr>
+        <td>4.2</td>
+        <td>Nov 2025</td>
+        <td>Phase 5: 9 sensors, 3×3 grid, topology analysis</td>
+    </tr>
+    <tr>
+        <td>4.2.1</td>
+        <td>Dec 2025</td>
+        <td>Hybrid pin configuration (sensor 8 direct)</td>
+    </tr>
+    <tr>
+        <td>4.2.2</td>
+        <td>Dec 2025</td>
+        <td>Code review fixes (6 critical/medium fixes)</td>
+    </tr>
+    <tr>
+        <td>4.2.3</td>
+        <td>Dec 2025</td>
+        <td>Minor improvements (2 additional fixes)</td>
+    </tr>
+    <tr>
+        <td>4.2.4</td>
+        <td>Dec 2025</td>
+        <td>Report display separation (web modal popups)</td>
+    </tr>
+</table>
+
+<h2>11.3 Code Improvements Summary</h2>
+
+<table>
+    <tr>
+        <th>Fix</th>
+        <th>Priority</th>
+        <th>Description</th>
+    </tr>
+    <tr><td>1</td><td>CRITICAL</td><td>HTML_PAGE forward declaration</td></tr>
+    <tr><td>2</td><td>CRITICAL</td><td>JSON null-termination</td></tr>
+    <tr><td>3</td><td>MEDIUM</td><td>JavaScript event handling (strict mode)</td></tr>
+    <tr><td>4</td><td>MEDIUM</td><td>Isolated sensor logging (BFS)</td></tr>
+    <tr><td>5</td><td>LOW</td><td>Upload success validation</td></tr>
+    <tr><td>6</td><td>LOW</td><td>Message clarity improvements</td></tr>
+    <tr><td>7</td><td>MEDIUM</td><td>POST log wording (MUX vs direct)</td></tr>
+    <tr><td>8</td><td>LOW</td><td>Code simplification (readAllSensors)</td></tr>
+</table>
+
+<h2>11.4 Safety & Compliance</h2>
+
+<ul>
+    <li>✅ Input validation on all sensor indices</li>
+    <li>✅ Null pointer checks</li>
+    <li>✅ Timeout protection (max pump time)</li>
+    <li>✅ Fault state with manual recovery</li>
+    <li>✅ Configuration validation on load</li>
+    <li>✅ Bounds checking on ADC values</li>
+    <li>✅ Safe defaults if config missing</li>
+</ul>
+
+<h2>11.5 File Structure</h2>
+
+<table>
+    <tr>
+        <th>File</th>
+        <th>Purpose</th>
+        <th>Size</th>
+    </tr>
+    <tr><td>automatic irrigation esp 32.ino</td><td>Main code</td><td>~1,800 lines</td></tr>
+    <tr><td>config.json</td><td>Runtime configuration</td><td>~1KB</td></tr>
+    <tr><td>DEPLOYMENT_GUIDE.md</td><td>Setup instructions</td><td>~15KB</td></tr>
+    <tr><td>CODE_REVIEW_FIXES.md</td><td>Fix documentation</td><td>~8KB</td></tr>
+    <tr><td>HYBRID_SENSOR_UPDATE.md</td><td>Pin config details</td><td>~5KB</td></tr>
+    <tr><td>REPORT_DISPLAY_UPDATE.md</td><td>Report feature docs</td><td>~7KB</td></tr>
+    <tr><td>ESP32_SYNOPSIS.md</td><td>Complete synopsis</td><td>~12KB</td></tr>
+</table>
+
+<h2>11.6 Power Requirements</h2>
+
+<table>
+    <tr>
+        <th>Component</th>
+        <th>Voltage</th>
+        <th>Current</th>
+    </tr>
+    <tr><td>ESP32</td><td>5V (USB) or 3.3V (direct)</td><td>240mA active, 20mA sleep</td></tr>
+    <tr><td>CD4051</td><td>3.3V</td><td><1mA</td></tr>
+    <tr><td>Sensors (each)</td><td>3.3V - 5V</td><td>~5mA each</td></tr>
+    <tr><td>Relay Module</td><td>5V</td><td>~50mA (coil)</td></tr>
+    <tr><td>Water Pump</td><td>12V (typical)</td><td>1-2A (per pump specs)</td></tr>
+</table>
+
+<div class="warning">
+    <strong>⚠️ Important:</strong> Use separate power supply for pump. Do not power pump from ESP32 5V pin - insufficient current capacity!
+</div>
+
+<h2>11.7 Network Protocols</h2>
+
+<ul>
+    <li><strong>WiFi:</strong> 802.11 b/g/n (2.4GHz only)</li>
+    <li><strong>HTTP:</strong> Port 80 (web server)</li>
+    <li><strong>Serial:</strong> 115200 baud, 8N1</li>
+    <li><strong>JSON:</strong> ArduinoJson v6.x for data exchange</li>
+</ul>
+
+<h2>11.8 Data Storage</h2>
+
+<table>
+    <tr>
+        <th>Type</th>
+        <th>Location</th>
+        <th>Persistence</th>
+    </tr>
+    <tr><td>Configuration</td><td>SPIFFS (config.json)</td><td>Permanent (flash)</td></tr>
+    <tr><td>Monthly Totals</td><td>Preferences (NVS)</td><td>Permanent (flash)</td></tr>
+    <tr><td>Daily Metrics</td><td>RAM</td><td>Lost on reboot</td></tr>
+    <tr><td>Current Readings</td><td>RAM (sensorMap array)</td><td>Lost on reboot</td></tr>
+    <tr><td>State Machine</td><td>RAM</td><td>Lost on reboot (defaults to MONITORING)</td></tr>
+</table>
+
+<!-- FOOTER -->
+<div style="margin-top: 100px; border-top: 3px solid #0066cc; padding-top: 20px; text-align: center;">
+    <h2>ESP32 Smart Irrigation System</h2>
+    <p><strong>Version 4.2.4</strong></p>
+    <p>Complete Documentation & Deployment Guide</p>
+    <p style="margin-top: 30px; color: #666;">
+        For additional support, refer to the Serial Monitor output and troubleshooting section.<br>
+        All source files available in project directory.
+    </p>
+    <div class="success" style="margin: 30px auto; max-width: 600px;">
+        <strong>✅ System Status: PRODUCTION READY</strong><br>
+        All features implemented, tested, and documented.<br>
+        Ready for field deployment.
+    </div>
+</div>
+
+</body>
+</html>
