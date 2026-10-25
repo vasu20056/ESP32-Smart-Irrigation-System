@@ -1,6 +1,6 @@
 # WiFi Auto-Reconnection Feature Guide
 
-## Status: ✅ IMPLEMENTED
+## Status:  IMPLEMENTED
 
 **Date:** 2026-01-17
 **Version:** 4.2.5
@@ -123,7 +123,7 @@ Manual WiFi reconnection requested...
 =========================================
 Attempting to connect to: YourSSID
 ..........
-✅ WiFi CONNECTED successfully!
+ WiFi CONNECTED successfully!
 IP address: 192.168.1.100
 Web server restarted.
 Access dashboard at: http://192.168.1.100
@@ -149,7 +149,7 @@ COMMAND RECEIVED: WIFI_STATUS
 =========================================
 --- WiFi Status Report ---
 =========================================
-Status: CONNECTED ✅
+Status: CONNECTED  
 IP Address: 192.168.1.100
 Signal Strength (RSSI): -45 dBm
 Access dashboard at: http://192.168.1.100
@@ -165,7 +165,7 @@ COMMAND RECEIVED: WIFI_STATUS
 =========================================
 --- WiFi Status Report ---
 =========================================
-Status: DISCONNECTED ❌
+Status: DISCONNECTED 
 No IP address available.
 Auto-reconnect attempts: 2 of 3
 Retry interval: 60 seconds
@@ -497,7 +497,7 @@ Before deploying to field:
 
 ### Compatibility
 
-✅ **Works seamlessly with:**
+ **Works seamlessly with:**
 - All existing irrigation logic (MONITORING, IRRIGATING, WAITING states)
 - Sensor readings (multiplexer and direct sensor)
 - Serial commands (REPORT, FORCE_RESET, etc.)
@@ -547,18 +547,18 @@ Potential improvements for future versions:
 The WiFi auto-reconnection feature ensures your ESP32 Smart Irrigation System maintains reliable connectivity while never compromising core irrigation functionality. With automatic monitoring, smart retry logic, and manual control commands, you have complete visibility and control over network connectivity.
 
 **Key Takeaways:**
-- ✅ Automatic reconnection every 60 seconds (configurable)
-- ✅ Up to 3 attempts per cycle before backing off
-- ✅ Irrigation continues normally without WiFi
-- ✅ Manual `WIFI_RETRY` and `WIFI_STATUS` commands
-- ✅ Web server auto-restart on reconnection
-- ✅ Zero impact on irrigation performance
-- ✅ Fully configurable via `config.json`
+-  Automatic reconnection every 60 seconds (configurable)
+-   Up to 3 attempts per cycle before backing off
+-   Irrigation continues normally without WiFi
+-   Manual `WIFI_RETRY` and `WIFI_STATUS` commands
+-   Web server auto-restart on reconnection
+-   Zero impact on irrigation performance
+-   Fully configurable via `config.json`
 
 ---
 
-**Document Status:** ✅ COMPLETE
-**Implementation Status:** ✅ TESTED
-**Production Ready:** ✅ YES
+**Document Status:**   COMPLETE
+**Implementation Status:**   TESTED
+**Production Ready:**   YES
 
 For questions or issues, refer to Serial Monitor output or use `WIFI_STATUS` command for diagnostics.
