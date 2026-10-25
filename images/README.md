@@ -8,3 +8,4 @@ This folder contains the wiring diagrams, software workflow diagrams, and other 
 - System design diagrams
 
 Refer to the main project README for an overview of the system.
+![ESP32 Smart Irrigation System Banner](images/smart-irrigation-banner.png)
