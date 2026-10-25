@@ -1,6 +1,6 @@
 # Phase 4: Web Interface - Complete Setup Guide
 
-## 🎉 What's New in Phase 4
+##  What's New in Phase 4
 
 Your ESP32 irrigation system now has a **full web interface** with:
 - ✅ WiFi connectivity
