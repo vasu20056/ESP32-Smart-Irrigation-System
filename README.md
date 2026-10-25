@@ -15,3 +15,4 @@ Detailed guides and supporting files are available in the [`docs/`](docs/) folde
 - [Configuration](config.json) — Irrigation configuration settings.
 
 For additional phase reports, code review notes, and improvement summaries, browse the [`docs/`](docs/) folder.
+![ESP32 Smart Irrigation System Banner](images/smart-irrigation-banner.png)
